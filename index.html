@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MongoDB/Mongoose Demo</title>
+    <script type="text/javascript" src="./node_modules/zingchart/client/zingchart.min.js"></script>
+    
+    <!--
+    <script>
+    zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+    </script> 
+    -->
+
+  </head>
+  <body>
+  <h1>MCandlestick Chart</h1>
+    <div id="myChart"></div>
+    <script>
+   
+    // Generates GET requests to a URL.
+    function httpGet(Url){
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", Url, false);
+      xmlHttp.send(null);
+      return xmlHttp.responseText;
+    }
+
+    window.onload=function(){
+      // GET request to localhost:3000/test, which has been configured to send back our db data
+      var aData = JSON.parse(httpGet('http://localhost:8800/BANCAS'));
+     
+      //var seriesFecha = [];
+      var seriesData = [];
+     // var seriesVolumen = [];
+      
+      // Push the data into the seriesData object's arrays.
+      for(var j=0 ; j < aData.lenght; j++){
+        seriesFecha.push([
+          aData[j]['fecha']
+          ]);
+        //console.log(aData[j])
+      }
+
+      for(var n=0 ; n < aData.length; n++){
+        //seriesFecha.push([aData[n]['fecha']])
+        seriesData.push([
+          aData[n]['abierto'],
+          aData[n]['alto'],
+          aData[n]['bajo'],
+          aData[n]['cierre']
+          ]);
+        
+       console.log(aData[n])
+
+      }
+     /* for (var m=0; m < aData.length; m++){
+        seriesVolumen.push([
+          aData[m]['volumen']
+          ]);
+      }*/
+    
+    zingchart.THEME = "classic";
+    var myConfig = {
+      "gui": {
+        "behaviors": [{
+          "id": "ZoomIn",
+          "enabled": "all"
+        }, {
+          "id": "ZoomOut",
+          "enabled": "all"
+        }, {
+          "id": "ShowAll",
+          "enabled": "all"
+        }]
+      },
+      "graphset": [{
+        "x": 0,
+        "y": "0",
+        "width": "100%",
+        "height": "75%",
+        "type": "mixed",
+        "title": {
+          "text": "Market Activity Composite",
+          "font-size": "22px",
+          "height": 20,
+          "position": "0% 0%",
+          "margin-top": 10,
+          "margin-right": 0,
+          "margin-left": 0,
+          "margin-bottom": 10,
+          "background-color": "none"
+        },
+        "plotarea": {
+          "margin-top": 55,
+          "margin-right": 50,
+          "margin-left": 70,
+          "margin-bottom": 0
+        },
+        "zoom": {
+          "background-color": "#ff0000",
+          "alpha": 0.6,
+          "shared": true
+        },
+        "guide": {
+          "shared": true,
+          "scale-label": {
+            "visible": false
+          },
+          "plot-label": {
+            "padding": 8,
+            "border-radius": 8,
+            "-background-color-2": "#aaa",
+            "alpha": "0.725",
+            "visible": true,
+            "text": "Open: %v0 +High: %v1 +Low: %v2 Close: %v3"
+          }
+        },
+        "plot": {
+          "exact": false,
+          "rules": [{
+            "rule": "%v3 < %v0",
+            "line-color": "red"
+          }, {
+            "rule": "%v3 > %v0",
+            "line-color": "green"
+          }]
+        },
+        "background-color": "#394142 #1a2021",
+        "border-color": "#3b5d62",
+        "scale-x": {
+          "line-color": "none",
+          "tick": {
+            "visible": false
+          },
+          "zooming": 1,
+          "item": {
+            "font-color": "#000",
+            "visible": false
+          }
+        },
+        "scale-y": {
+          "values": "0:50:10",
+          "zooming": 1,
+          "format": "$%v",
+          "line-color": "#fff",
+          "line-width": "1px",
+          "alpha": 0.5,
+          "tick": {
+            "line-color": "#fff",
+            "line-width": "1px"
+          },
+          "item": {
+            "font-size": 11,
+            "color": "#ffffff",
+            "padding": "3px"
+          }
+        },
+        "tooltip": {
+          "visible": false
+        },
+        "series": [{
+          "type": "stock",
+          "aspect": "whisker",
+          "decimals": 2,
+          "text": "demo",
+          "values": [seriesData[n=30],seriesData[n=29],seriesData[n=28],seriesData[n=27],seriesData[n=26],seriesData[n=25],
+                    seriesData[n=24],seriesData[n=23],seriesData[n=22],seriesData[n=21],seriesData[n=20],seriesData[n=19],
+                    seriesData[n=18],seriesData[n=17],seriesData[n=16],seriesData[n=15],seriesData[n=14],seriesData[n=13],
+                    seriesData[n=12],seriesData[n=11],seriesData[n=10],seriesData[n=9],seriesData[n=8],seriesData[n=7],
+                    seriesData[n=6],seriesData[n=5],seriesData[n=4],seriesData[n=3],seriesData[n=2],seriesData[n=1],seriesData[n=0]]
+        }]
+      }, {
+        "type": "bar",
+        "x": 0,
+        "y": "75%",
+        "width": "100%",
+        "height": "25%",
+        "plotarea": {
+          "margin-top": 18,
+          "margin-right": 50,
+          "margin-left": 70,
+          "margin-bottom": 30
+        },
+        "zoom": {
+          "background-color": "#ff0000",
+          "alpha": 0.6,
+          "shared": true
+        },
+        "scale-y": {
+          "line-color": "#fff",
+          "line-width": "1px",
+          "alpha": 0.5,
+          "multiplier": true,
+          "tick": {
+            "line-color": "#fff",
+            "line-width": "1px"
+          },
+          "min-value": 0,
+          "item": {
+            "font-size": 11,
+            "color": "#ffffff",
+            "padding": "3px"
+          }
+        },
+        "scale-x": {
+          "line-color": "#777",
+          "line-width": "1px",
+          "alpha": 0.5,
+          "tick": {
+            "line-color": "#fff",
+            "line-width": "1px"
+          },
+          "item": {
+            "font-size": 11,
+            "color": "#fff"
+          },
+          "max-items": 7,
+          "zooming": 1,
+          "shared": true,
+          "values": [/*fecha*/
+                    /*seriesFecha[j=30],seriesFecha[j=29],seriesFecha[j=28],seriesFecha[j=27],seriesFecha[j=26],seriesFecha[j=25],
+                    seriesFecha[j=24],seriesFecha[j=23],seriesFecha[j=22],seriesFecha[j=21],seriesFecha[j=20],seriesFecha[j=19],
+                    seriesFecha[j=18],seriesFecha[j=17],seriesFecha[j=16],seriesFecha[j=15],seriesFecha[j=14],seriesFecha[j=13],
+                    seriesFecha[j=12],seriesFecha[j=11],seriesFecha[j=10],seriesFecha[j=9],seriesFecha[j=8],seriesFecha[j=7],
+                    seriesFecha[j=6],seriesFecha[j=5],seriesFecha[j=4],seriesFecha[j=3],seriesFecha[j=2],seriesFecha[j=1],seriesFecha[j=0]*/
+                    "29/05/00", "30/05/00", "31/05/00", "01/06/00", "02/06/00", "05/06/00", "06/06/00", "07/06/00", "08/06/00", "09/06/00", "12/06/00", "13/06/00", "14/06/00", "15/06/00", "16/06/00", "19/06/00", "20/06/00", "21/06/00", "22/06/00", "23/06/00", "26/06/00", "27/06/00", "28/06/00", "29/06/00", "30/06/00", "03/07/00", "04/07/00", "05/07/00", "06/07/00", "07/07/00"
+          ]
+      },
+        "plot-label": {
+          "padding": 8,
+          "border-radius": 8,
+          "background-color-2": "#aaa",
+          "visible": true,
+          "text": "Volume:%v"
+        },
+        "guide": {
+          "shared": true,
+          "visible": true,
+          "scale-label": {
+            "visible": true
+          }
+        },
+        "background-color": "#1a2021",
+        "tooltip": {
+          "visible": false
+        },
+        "plot": {
+          "guide-label": {
+            "text": "Volume:%v"
+          }
+        },
+        "series": [{
+          "background-color": "#39a8d8",
+          "line-color": "#39a8d8",
+          "text": "Volumes",
+          "values": [/*volumen*/160740700,156596600,117684500,148116600,129527100,82392200,81925300,63976400,160740700,156596600,117684500,148116600,129527100,82392200,81925300,63976400,160740700,156596600,117684500,148116600,129527100,82392200,81925300,63976400
+                   /* seriesVolumen[n=30],seriesVolumen[n=29],seriesVolumen[n=28],seriesVolumen[n=27],seriesVolumen[n=26],seriesVolumen[n=25],
+                    seriesVolumen[n=24],seriesVolumen[n=23],seriesVolumen[n=22],seriesVolumen[n=21],seriesVolumen[n=20],seriesVolumen[n=19],
+                    seriesVolumen[n=18],seriesVolumen[n=17],seriesVolumen[n=16],seriesVolumen[n=15],seriesVolumen[n=14],seriesVolumen[n=13],
+                    seriesVolumen[n=12],seriesVolumen[n=11],seriesVolumen[n=10],seriesVolumen[n=9],seriesVolumen[n=8],seriesVolumen[n=7],
+                    seriesVolumen[n=6],seriesVolumen[n=5],seriesVolumen[n=4],seriesVolumen[n=3],seriesVolumen[n=2],seriesVolumen[n=1],seriesVolumen[n=0]*/
+                    /*seriesVolumen[m=30],seriesVolumen[m=29],seriesVolumen[m=28],seriesVolumen[m=27],seriesVolumen[m=26],seriesVolumen[m=25],
+                    seriesVolumen[m=24],seriesVolumen[m=23],seriesVolumen[m=22],seriesVolumen[m=21],seriesVolumen[m=20],seriesVolumen[m=19],
+                    seriesVolumen[m=18],seriesVolumen[m=17],seriesVolumen[m=16],seriesVolumen[m=15],seriesVolumen[m=14],seriesVolumen[m=13],
+                    seriesVolumen[m=12],seriesVolumen[m=11],seriesVolumen[m=10],seriesVolumen[m=9],seriesVolumen[m=8],seriesVolumen[m=7],
+                    seriesVolumen[m=6],seriesVolumen[m=5],seriesVolumen[m=4],seriesVolumen[m=3],seriesVolumen[m=2],seriesVolumen[m=1],seriesVolumen[m=0]*/
+          ]
+          }]
+      }]
+    };
+
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+      height: 500,
+      width: 725
+    });
+    };
+    </script>
+    
+  </body>
+</html>

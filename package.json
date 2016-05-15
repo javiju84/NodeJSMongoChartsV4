@@ -1,0 +1,28 @@
+{
+  "name": "mongo_chart_v4",
+  "version": "1.0.0",
+  "description": "mongo chart",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/javiju84/NodeJSMongoChartsV4.git"
+  },
+  "author": "javiju",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/javiju84/NodeJSMongoChartsV4/issues"
+  },
+  "homepage": "https://github.com/javiju84/NodeJSMongoChartsV4#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.4.17",
+    "nodemon": "^1.9.2",
+    "request": "^2.72.0",
+    "require": "^2.4.20",
+    "url": "^0.11.0",
+    "zingchart": "^2.3.3"
+  }
+}
